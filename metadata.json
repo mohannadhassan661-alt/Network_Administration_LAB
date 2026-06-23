@@ -1,0 +1,6 @@
+{
+  "name": "Network Administration Lab Explainer",
+  "description": "An interactive slide-by-slide translator and detailed explainer for the Network Administration Lab course, Lecture 1.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
