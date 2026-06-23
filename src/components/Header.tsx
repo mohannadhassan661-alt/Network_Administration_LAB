@@ -6,10 +6,6 @@ interface HeaderProps {
   setCurrentTab: (tab: "viewer" | "glossary" | "quiz") => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  completedSlidesCount: number;
-  totalSlides: number;
-  selectedLecture: number | "all";
-  setSelectedLecture: (lecture: number | "all") => void;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   onToggleLecturesSidebar: () => void;
@@ -20,15 +16,10 @@ export function Header({
   setCurrentTab,
   searchQuery,
   setSearchQuery,
-  completedSlidesCount,
-  totalSlides,
-  selectedLecture,
-  setSelectedLecture,
   isDarkMode,
   toggleDarkMode,
   onToggleLecturesSidebar,
 }: HeaderProps) {
-  const progressPercent = totalSlides > 0 ? (completedSlidesCount / totalSlides) * 100 : 0;
 
   return (
     <header className={`sticky top-0 z-40 transition-all duration-300 border-b ${
@@ -36,15 +27,7 @@ export function Header({
         ? "bg-zinc-950/90 border-zinc-900 text-zinc-100 backdrop-blur-md" 
         : "bg-white/95 border-zinc-150 text-zinc-900 shadow-3xs backdrop-blur-md"
     }`}>
-      {/* 1. Miniature Top Accent Progress bar of Active Lecture */}
-      <div className="h-0.5 w-full bg-zinc-200/40 dark:bg-zinc-900 flex">
-        <motion.div 
-          initial={{ width: 0 }}
-          animate={{ width: `${progressPercent}%` }}
-          transition={{ duration: 0.4 }}
-          className="h-full bg-red-600 shadow-xs"
-        />
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Core Header Row - Extremely Compact & Streamlined */}

@@ -10,22 +10,12 @@ import { BookOpen, Network, ShieldCheck, Terminal, Award, Sparkles, BookMarked, 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<"viewer" | "glossary" | "quiz">("viewer");
   const [searchQuery, setSearchQuery] = useState("");
-  const [completedSlides, setCompletedSlides] = useState<number[]>([1]); // Default first slide is done
   const [selectedLecture, setSelectedLecture] = useState<number | "all">("all");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true); // Default to Dark Mode as requested
   const [isLecturesSidebarOpen, setIsLecturesSidebarOpen] = useState(false);
 
-  // Load completed slides and dark mode from localStorage if present
+  // Load dark mode from localStorage if present
   useEffect(() => {
-    const saved = localStorage.getItem("net_lab_completed_slides");
-    if (saved) {
-      try {
-        setCompletedSlides(JSON.parse(saved));
-      } catch (e) {
-        console.error("Error loading completed slides", e);
-      }
-    }
-
     const savedDarkMode = localStorage.getItem("net_lab_dark_mode");
     if (savedDarkMode !== null) {
       setIsDarkMode(savedDarkMode === "true");
@@ -40,31 +30,6 @@ export default function App() {
     });
   };
 
-  const toggleSlideCompleted = (id: number) => {
-    setCompletedSlides((prev) => {
-      let updated;
-      if (prev.includes(id)) {
-        updated = prev.filter((item) => item !== id);
-      } else {
-        updated = [...prev, id];
-      }
-      localStorage.setItem("net_lab_completed_slides", JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  // Get slides that match the active lecture filter
-  const activeSlides = slidesData.filter(
-    (slide) => selectedLecture === "all" || slide.lectureId === selectedLecture
-  );
-  
-  // Calculate completed count within active slides
-  const activeCompletedCount = completedSlides.filter((id) =>
-    activeSlides.some((slide) => slide.id === id)
-  ).length;
-
-  const totalSlidesCount = activeSlides.length;
-
   return (
     <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? "dark bg-zinc-950 text-zinc-100" : "bg-zinc-50 text-zinc-900"} flex flex-col font-sans text-right antialiased`} dir="rtl">
       
@@ -74,10 +39,6 @@ export default function App() {
         setCurrentTab={setCurrentTab}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        completedSlidesCount={activeCompletedCount}
-        totalSlides={totalSlidesCount}
-        selectedLecture={selectedLecture}
-        setSelectedLecture={setSelectedLecture}
         isDarkMode={isDarkMode}
         toggleDarkMode={toggleDarkMode}
         onToggleLecturesSidebar={() => setIsLecturesSidebarOpen((prev) => !prev)}
@@ -90,7 +51,6 @@ export default function App() {
         <LecturesSidebar
           selectedLecture={selectedLecture}
           setSelectedLecture={setSelectedLecture}
-          completedSlides={completedSlides}
           isOpen={isLecturesSidebarOpen}
           onClose={() => setIsLecturesSidebarOpen(false)}
           isDarkMode={isDarkMode}
@@ -102,9 +62,8 @@ export default function App() {
             <PresentationViewer
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              completedSlides={completedSlides}
-              toggleSlideCompleted={toggleSlideCompleted}
               selectedLecture={selectedLecture}
+              setSelectedLecture={setSelectedLecture}
               isDarkMode={isDarkMode}
             />
           )}

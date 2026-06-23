@@ -1,6 +1,6 @@
 {
   "name": "Network Administration Lab Explainer",
-  "description": "An interactive slide-by-slide translator and detailed explainer for the Network Administration Lab course, Lecture 1.",
+  "description": "An interactive slide-by-slide bilingual translator and detailed technical explainer for the Network Administration and Management course lectures (1, 2, 3, 4, 5, 7, and 8) by Eng. Gawhar Gamal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
